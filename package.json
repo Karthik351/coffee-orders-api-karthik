@@ -1,0 +1,15 @@
+{
+  "name": "coffee-shop-api",
+  "version": "1.0.0",
+  "scripts": {
+    "deploy:dev": "sls deploy --stage dev",
+    "deploy:prod": "sls deploy --stage prod"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1394.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "serverless": "^3.38.0"
+  }
+}
