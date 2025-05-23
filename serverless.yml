@@ -36,4 +36,10 @@ functions:
       - http:
           path: orders
           method: get
- 
+
+  updateOrder:
+    handler: handlers/updateOrder.handler
+    events:
+      - http:
+          path: orders/{id}
+          method: put
