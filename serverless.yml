@@ -1,0 +1,66 @@
+service: coffee-shop-api
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  stage: ${opt:stage, 'dev'}
+  environment:
+    ORDERS_TABLE: orders-${opt:stage, 'dev'}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource:
+        - Fn::GetAtt: [OrdersTable, Arn]
+
+functions:
+  createOrder:
+    handler: handlers/createOrder.handler
+    events:
+      - http:
+          path: orders
+          method: post
+
+  getOrder:
+    handler: handlers/getOrder.handler
+    events:
+      - http:
+          path: orders/{id}
+          method: get
+
+  updateOrder:
+    handler: handlers/updateOrder.handler
+    events:
+      - http:
+          path: orders/{id}
+          method: put
+
+  deleteOrder:
+    handler: handlers/deleteOrder.handler
+    events:
+      - http:
+          path: orders/{id}
+          method: delete
+
+  listOrders:
+    handler: handlers/listOrders.handler
+    events:
+      - http:
+          path: orders
+          method: get
+
+resources:
+  Resources:
+    OrdersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: orders-${opt:stage, 'dev'}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
