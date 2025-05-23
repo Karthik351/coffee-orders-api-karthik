@@ -43,3 +43,11 @@ functions:
       - http:
           path: orders/{id}
           method: put
+
+  deleteOrder:
+    handler: handlers/deleteOrder.handler
+    events:
+      - http:
+          path: orders/{id}
+          method: delete
+
