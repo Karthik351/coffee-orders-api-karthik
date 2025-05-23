@@ -23,4 +23,17 @@ functions:
           path: orders
           method: post
 
+  getOrder:
+    handler: handlers/getOrder.handler
+    events:
+      - http:
+          path: orders/{id}
+          method: get
+
+  listOrders:
+    handler: handlers/listOrders.handler
+    events:
+      - http:
+          path: orders
+          method: get
  
