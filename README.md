@@ -60,3 +60,66 @@ Install the Serverless Framework globally
 Configure your AWS credentials using aws configure
 
 
+🌐 API Endpoints
+The base URL will be generated after deployment. Example: https://<api-id>.execute-api.<region>.amazonaws.com/dev
+
+| Method | Endpoint     | Description        |
+| ------ | ------------ | ------------------ |
+| POST   | /orders      | Create a new order |
+| GET    | /orders/{id} | Get order by ID    |
+| GET    | /orders      | List all orders    |
+| PUT    | /orders/{id} | Update an order    |
+| DELETE | /orders/{id} | Delete an order    |
+
+
+📘 Sample Payloads
+Example payload for POST /orders:
+{
+  "customerName": "John Doe",
+  "items": [
+    { "name": "Latte", "quantity": 1 },
+    { "name": "Espresso", "quantity": 2 }
+  ],
+  "total": 12.5
+}
+
+🛠️ CI/CD with GitHub Actions
+Deployment is fully automated using GitHub Actions. The workflow runs on every push to the main branch, installs dependencies, and deploys the application using the Serverless Framework.
+
+Example:
+git add .
+git commit -m "feat: add new endpoint"
+git push origin main
+
+⚙️ serverless.yml Overview
+Defines two stages: dev and prod.
+
+Uses dynamic table naming: orders-${opt:stage, 'dev'}
+
+Maps API Gateway events to Lambda functions.
+
+Grants precise IAM permissions scoped to DynamoDB access.
+
+Configurable environment variables (can be extended with AWS Secrets Manager).
+
+🧪 Testing
+You can test endpoints using Postman, curl.
+
+Example for listing all orders:
+curl https://<api-id>.execute-api.<region>.amazonaws.com/dev/orders
+
+🔐 Security & Cost Optimization
+Uses PAY_PER_REQUEST billing for DynamoDB to eliminate unnecessary costs.
+
+IAM permissions follow the principle of least privilege.
+
+Environment separation ensures isolation and safety between dev/prod.
+
+Serverless secrets and environment configurations can be extended with AWS SSM/Secrets Manager.
+
+👨‍💻 Author
+Karthik
+[www.linkedin.com/in/jayakarthikr]
+
+📄 License
+MIT License. You are free to use, modify, and distribute this project.
